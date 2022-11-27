@@ -24,9 +24,7 @@
 		{
 			$email = addslashes(strip_tags($_POST['form_address']));
 
-			$check = '/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/';
-
-			if(preg_match($check, $email))
+			if(filter_var($email, FILTER_VALIDATE_EMAIL))
 			{
 				if($_SESSION['captcha'] != addslashes(strip_tags($_POST['user_code'])))
 				{ 
