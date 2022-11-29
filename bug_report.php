@@ -23,10 +23,9 @@
 		if(addslashes(strip_tags($_POST['form_address'])) != "" AND addslashes(strip_tags($_POST['form_name'])) != "" AND addslashes(strip_tags($_POST['form_message'])) != "")
 		{
 			$email = addslashes(strip_tags($_POST['form_address']));
+			$email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-			$check = '/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/';
-
-			if(preg_match($check, $email))
+			if (filter_var($email, FILTER_VALIDATE_EMAIL))
 			{
 				if($_SESSION['captcha'] != addslashes(strip_tags($_POST['user_code'])))
 				{ 
@@ -39,7 +38,7 @@
 							<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
 						</head>
 						<body>
-							<b>Submitter's address:</b> ".addslashes(strip_tags($_POST['form_address']))."<br>
+							<b>Submitter's address:</b> ".$email."<br>
 							<b>Submitter's name:</b> ".addslashes(strip_tags($_POST['form_name']))."<br>
 							<b>IP:</b> ".addslashes(strip_tags($_POST['ip']))."<br>
 							<b>Problem with:</b> ".addslashes(strip_tags($_POST['form_case']))."<br>
@@ -49,7 +48,7 @@
 						</html>";
 					$subject="Bug report from Twittodon.com ".date('d-m-Y H:i');
 					$header = "MIME-Version: 1.0r\n"."Content-type: text/html; charset=utf-8\n";
-					$header .= "From: ".addslashes(strip_tags($_POST['form_address']))."\n";
+					$header .= "From: ".$email."\n";
 					$address = "support@twittodon.com";
 		
 					mail($address, $subject, $message, $header);
