@@ -252,7 +252,8 @@
             </thead>
             <tbody>
             <?php
-                while($fromdb = mysqli_fetch_row($result))
+                $export_arr = array();
+		while($fromdb = mysqli_fetch_row($result))
                 {
                     //$fromdb[0] - id
                     //$fromdb[1] - twitter_login
@@ -273,12 +274,18 @@
                     echo "<td style=\"white-space: normal\"><a href=\"".$mastodon_link."\" target=\"_blank\">".$fromdb[3]."</a><br>".$fromdb[7]."</highlight_purple></td>";
                     echo "<td style=\"white-space: nowrap\">".$fromdb[9]."</td>";
                     echo "</tr>";
+		    $export_arr[] = array($fromdb[1],$fromdb[3],$fromdb[9]);
                 }
+		$serialize_export_arr = serialize($export_arr);
             ?>
             </tbody>
         </table>
-		
-			<br><br>
+	    <br>
+            <form method="post" action="download.php">
+                <textarea name="export_data" style="display: none;"><?php echo $serialize_export_arr; ?></textarea>
+                <button type="submit" name="Export">Download entire table as a CSV file</button>
+            </form>
+            <br>
 			<label>
 				<center>
 					<table style="font-size: 12px;">
