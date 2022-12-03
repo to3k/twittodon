@@ -21,25 +21,29 @@
 				} 
 				else 
 				{ 
-					$message = "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">
-						<head>
-							<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-						</head>
-						<body>
-							<b>Submitter's address:</b> ".$email."<br>
-							<b>Submitter's name:</b> ".addslashes(strip_tags($_POST['form_name']))."<br>
-							<b>IP:</b> ".addslashes(strip_tags($_POST['ip']))."<br>
-							<b>Message:</b><br>
-							".addslashes(strip_tags($_POST['form_message']))."
-						</body>
-						</html>";
-					$subject="Message from Twittodon.com ".date('d-m-Y H:i');
-					$header = "MIME-Version: 1.0r\n"."Content-type: text/html; charset=utf-8\n";
-					$header .= "From: ".$email."\n";
-					$address = "contact@twittodon.com";
+					if($_POST['consent'] == "agree")
+					{
+						$message = "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">
+							<head>
+								<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+							</head>
+							<body>
+								<b>Submitter's address:</b> ".$email."<br>
+								<b>Submitter's name:</b> ".addslashes(strip_tags($_POST['form_name']))."<br>
+								<b>IP:</b> ".addslashes(strip_tags($_POST['ip']))."<br>
+								<b>Message:</b><br>
+								".addslashes(strip_tags($_POST['form_message']))."
+							</body>
+							</html>";
+						$subject="Message from Twittodon.com ".date('d-m-Y H:i');
+						$header = "MIME-Version: 1.0r\n"."Content-type: text/html; charset=utf-8\n";
+						$header .= "From: ".$email."\n";
+						$address = "contact@twittodon.com";
 		
-					mail($address, $subject, $message, $header);
-					$alert = 2;
+						mail($address, $subject, $message, $header);
+						$alert = 2;
+					}
+					else { $alert = 5; }
 				}
 			}
 			else
@@ -189,6 +193,14 @@
 		  -webkit-text-fill-color: #ffffff;
 		  opacity: 1;
 		}
+		
+		.checkbox
+		{
+			height: 15px;
+			-webkit-appearance: checkbox;
+			display: inline-block;
+		  	width: auto;
+		}
 
         textarea {
 		  font-family: Verdana;
@@ -287,6 +299,10 @@
 			{
 				echo "<h3><font color=\"red\"><img src=\"/img/fail.png\" height=\"15px\" />   The message has not been sent. All fields must be filled.</font></h3>";
 			}
+			elseif($alert==5)
+			{
+				echo "<h3><font color=\"red\"><img src=\"/img/fail.png\" height=\"15px\" />   The message has not been sent. Consent for data processing is required.</font></h3>";
+			}
 		?>
 		<div class="inputs">
 			<form method="post" action="">
@@ -298,6 +314,9 @@
 			<textarea name="form_message" placeholder="Type your message here..." size="30" rows="15"><?php echo addslashes(strip_tags($_POST['form_message'])); ?></textarea><br>
 			<img src="captcha.php" alt="Captcha" /><br>
 			<input type="text" name="user_code" placeholder="Enter the code from the image"><br>
+			<center><label style="width: 75%;">
+				<input class="checkbox" type="checkbox" id="consent" name="consent" value="agree"> I consent to the processing of my data in accordance with the <a href="privacy.php">privacy policy of this website</a>.
+			</label></center><br>
 			<button type="submit" name="submit">Send</button><br>
 			<br><br>
 			</form>
