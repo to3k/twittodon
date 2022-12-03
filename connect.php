@@ -7,9 +7,10 @@
     if(isset($_POST['twitter']) OR isset($_POST['mastodon']))
     {
         $message1 = "";
-		$message2 = "";
+	$message2 = "";
+	$message3 = "";
 		
-		$twitter = trim(addslashes(strip_tags($_POST['twitter'])));
+	$twitter = trim(addslashes(strip_tags($_POST['twitter'])));
         $check1 = '/^[A-Za-z0-9_]{1,15}$/';
         if(!preg_match($check1, $twitter))
         {
@@ -22,8 +23,13 @@
         {
             $message2 = "<message-red><img src=\"/img/fail.png\" height=\"15px\" />   Invalid format! Correct it and try again. Format should be: USERNAME@INSTANCE (e.g. to3k@mstdn.social).<br>If further failures occur, report the problem using <a href=\"bug_report.php\" target=\"_blank\">this form</a>.</message-red><br>";
         }
+	
+	if($_POST['consent'] != "agree")
+        {
+        	$message3 = "<message-red><img src=\"/img/fail.png\" height=\"15px\" />   Consent for data processing is required.</message-red><br>";
+        }
 
-		if(empty($message1) AND empty($message2))
+		if(empty($message1) AND empty($message2) AND empty($message3))
 		{
 			$query = "SELECT * FROM connections WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."' LIMIT 1";
 			$result = mysqli_query($mysqli, $query) or die('ERROR TD02');
@@ -223,6 +229,14 @@
 		  -webkit-text-fill-color: #ffffff;
 		  opacity: 1;
 		}
+		
+		.checkbox
+		{
+			height: 15px;
+			-webkit-appearance: checkbox;
+			display: inline-block;
+		  	width: auto;
+		}
 
 		button {
 		  font-family: Verdana;
@@ -302,11 +316,19 @@
             <?php 
 				echo $message2;
 			?>
+			<label>&bull;&bull;&bull;</label><br>
+			<center><label style="width: 75%;">
+				<input class="checkbox" type="checkbox" id="consent" name="consent" value="agree"> I consent to the processing of my data in accordance with the <a href="privacy.php">privacy policy of this website</a>.
+			</label></center>
+			<?php 
+				echo $message3;
+			?>
 			<br>
 		</div>
 			<?php
-				echo "<button type=\"submit\" id=\"ButtonNext\" name=\"next\" onclick=\"PleaseWaitButton()\">Next step</button>";
+				echo "<button type=\"submit\" id=\"ButtonNext\" name=\"next\" onclick=\"PleaseWaitButton()\">Connect</button>";
 			?>
+			</form>
 			<br><br>
 			<label>
 				<center>
@@ -332,7 +354,6 @@
 					</table>
 				</center>
 			</label>
-		</form>
 	</div>
 
 	<script>
