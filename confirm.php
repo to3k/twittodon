@@ -10,6 +10,7 @@
 	$mastodon_user = $explode[0];
 	$mastodon_server = $explode[1];
 	$mastodon_link = "https://".$explode[1]."/@".$explode[0];
+	$mastodon_special_link = $mastodon_user."_at_".$mastodon_server;
 
 	if(isset($_POST['verify_twitter']))
 	{
@@ -29,16 +30,44 @@
             else { break; }
         }
 		
-		preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+		preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
 
 		if(!empty($phrase[0]))
 		{
-			$update = "UPDATE connections SET twitter_verified='1' WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."'";	
+			$today = date("Y-m-d");
+			$update = "UPDATE connections SET twitter_verified='1', date='".$today."' WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."'";	
 			mysqli_query($mysqli, $update) or die('ERROR TD02');
 		}
 		else
 		{
-			$twitter_verified_error = true;
+			$nitter_link = "https://nitter.it/".$twitter;
+		
+			$curl = curl_init($nitter_link);
+			curl_setopt($curl, CURLOPT_URL, $nitter_link);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36');
+			curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+			curl_setopt($curl, CURLOPT_HEADER, 0);
+
+			$site_source_code = curl_exec($curl);
+			for($i=1; $i<=5; $i++)
+			{
+				if($site_source_code == "") { $site_source_code=curl_exec($curl); }
+				else { break; }
+			}
+			
+			preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+			
+			if(!empty($phrase[0]))
+			{
+				$today = date("Y-m-d");
+				$update = "UPDATE connections SET twitter_verified='1', date='".$today."' WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."'";	
+				mysqli_query($mysqli, $update) or die('ERROR TD02');
+			}
+			else
+			{
+				$twitter_verified_error = true;
+			}
 		}
 	}
 
@@ -359,9 +388,9 @@
 					echo "<label><b>Step 1</b><br>Check if this link directs to your Twitter account:<br><a href=\"https://twitter.com/".$twitter."\" target=\"_blank\">https://twitter.com/".$twitter."</a></label>";
 					echo "<label><b>Step 2</b><br>To verify that you are a owner of this Twitter account you need to post a tweet with the specified content. You have two options to do that.</label>";
 					echo "<label><b>Step 3 - <i>option 1</i></b><br>Button below will direct you to your Twitter account and prepare a proper tweet, the only thing you need to do is to confirm sending tweet (you must be logged into account which you are verifying and your account needs to be public!):</label>";
-					echo "<button type=\"button\" onClick=\"window.open('https://twitter.com/share?text=This is my account on Mastodon - ".$mastodon_link." - verified by Twittodon.com', '_blank');\">Prepare tweet</button><br>";
+					echo "<button type=\"button\" onClick=\"window.open('https://twitter.com/share?text=This is my account on Mastodon - ".$mastodon_special_link." - verified by @twittodon_com Twittodon.com', '_blank');\">Prepare tweet</button><br>";
 					echo "<label><b>Step 3 - <i>option 2</i></b><br>If above solution doesn't work for you or you don't want to do it that way, you can do it manually by copying the text below and tweeting it on your timeline (your account needs to be public!):</label>";
-					echo "<textarea id=\"CopyInput1\" wrap=\"hard\" disabled>This is my account on Mastodon - ".$mastodon_link." - verified by Twittodon.com</textarea>";
+					echo "<textarea id=\"CopyInput1\" wrap=\"hard\" disabled>This is my account on Mastodon - ".$mastodon_special_link." - verified by @twittodon_com Twittodon.com</textarea>";
 					echo "<button type=\"button\" id=\"CopyButton1\" onclick=\"CopyFunction1()\">Copy</button><br>";
 					echo "<label id=\"twitter_step4\"><b>Step 4</b><br>After posting a tweet confirm using button below to perform verification:</label>";
 					echo "<button type=\"submit\" id=\"verify_twitter\" name=\"verify_twitter\">Verify</button><br>";
