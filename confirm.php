@@ -29,7 +29,7 @@
             else { break; }
         }
 		
-		preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+		preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon.".+?Twittodon.com)is", $site_source_code, $phrase);
 
 		if(!empty($phrase[0]))
 		{
