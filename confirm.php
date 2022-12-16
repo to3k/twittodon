@@ -66,7 +66,88 @@
 			}
 			else
 			{
-				$twitter_verified_error = true;
+				$nitter_link = "https://nitter.pw/".$twitter;
+		
+				$curl = curl_init($nitter_link);
+				curl_setopt($curl, CURLOPT_URL, $nitter_link);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36');
+				curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+				curl_setopt($curl, CURLOPT_HEADER, 0);
+
+				$site_source_code = curl_exec($curl);
+				for($i=1; $i<=5; $i++)
+				{
+					if($site_source_code == "") { $site_source_code=curl_exec($curl); }
+					else { break; }
+				}
+			
+				preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+			
+				if(!empty($phrase[0]))
+				{
+					$today = date("Y-m-d");
+					$update = "UPDATE connections SET twitter_verified='1', date='".$today."' WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."'";	
+					mysqli_query($mysqli, $update) or die('ERROR TD02');
+				}
+				else
+				{
+					$nitter_link = "https://nederland.unofficialbird.com/".$twitter;
+		
+					$curl = curl_init($nitter_link);
+					curl_setopt($curl, CURLOPT_URL, $nitter_link);
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36');
+					curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+					curl_setopt($curl, CURLOPT_HEADER, 0);
+
+					$site_source_code = curl_exec($curl);
+					for($i=1; $i<=5; $i++)
+					{
+						if($site_source_code == "") { $site_source_code=curl_exec($curl); }
+						else { break; }
+					}
+			
+					preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+			
+					if(!empty($phrase[0]))
+					{
+						$today = date("Y-m-d");
+						$update = "UPDATE connections SET twitter_verified='1', date='".$today."' WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."'";	
+						mysqli_query($mysqli, $update) or die('ERROR TD02');
+					}
+					else
+					{
+						$nitter_link = "https://notabird.site/".$twitter;
+		
+						$curl = curl_init($nitter_link);
+						curl_setopt($curl, CURLOPT_URL, $nitter_link);
+						curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+						curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36');
+						curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+						curl_setopt($curl, CURLOPT_HEADER, 0);
+
+						$site_source_code = curl_exec($curl);
+						for($i=1; $i<=5; $i++)
+						{
+							if($site_source_code == "") { $site_source_code=curl_exec($curl); }
+							else { break; }
+						}
+			
+						preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+			
+						if(!empty($phrase[0]))
+						{
+							$today = date("Y-m-d");
+							$update = "UPDATE connections SET twitter_verified='1', date='".$today."' WHERE twitter_login='".$twitter."' AND mastodon_login='".$mastodon."'";	
+							mysqli_query($mysqli, $update) or die('ERROR TD02');
+						}
+						else
+						{
+							$twitter_verified_error = true;
+						}
+					}
+				}
 			}
 		}
 	}
