@@ -30,7 +30,7 @@
             else { break; }
         }
 		
-		preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+		preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
 
 		if(!empty($phrase[0]))
 		{
@@ -56,7 +56,7 @@
 				else { break; }
 			}
 			
-			preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+			preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
 			
 			if(!empty($phrase[0]))
 			{
@@ -82,7 +82,7 @@
 					else { break; }
 				}
 			
-				preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+				preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
 			
 				if(!empty($phrase[0]))
 				{
@@ -108,7 +108,7 @@
 						else { break; }
 					}
 			
-					preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+					preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
 			
 					if(!empty($phrase[0]))
 					{
@@ -134,7 +134,7 @@
 							else { break; }
 						}
 			
-						preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_special_link.".+?Twittodon.com)is", $site_source_code, $phrase);
+						preg_match("(<div class=\"tweet-content media-body\" dir=\"auto\">.+?".$mastodon_link.".+?Twittodon.com)is", $site_source_code, $phrase);
 			
 						if(!empty($phrase[0]))
 						{
@@ -469,9 +469,9 @@
 					echo "<label><b>Step 1</b><br>Check if this link directs to your Twitter account:<br><a href=\"https://twitter.com/".$twitter."\" target=\"_blank\">https://twitter.com/".$twitter."</a></label>";
 					echo "<label><b>Step 2</b><br>To verify that you are a owner of this Twitter account you need to post a tweet with the specified content. You have two options to do that.</label>";
 					echo "<label><b>Step 3 - <i>option 1</i></b><br>Button below will direct you to your Twitter account and prepare a proper tweet, the only thing you need to do is to confirm sending tweet (you must be logged into account which you are verifying and your account needs to be public!):</label>";
-					echo "<button type=\"button\" onClick=\"window.open('https://twitter.com/share?text=This is my account on Mastodon - ".$mastodon_special_link." - verified by @twittodon_com Twittodon.com', '_blank');\">Prepare tweet</button><br>";
+					echo "<button type=\"button\" onClick=\"window.open('https://twitter.com/share?text=This is my account on Mastodon - ".$mastodon_link." - verified by @twittodon_com Twittodon.com', '_blank');\">Prepare tweet</button><br>";
 					echo "<label><b>Step 3 - <i>option 2</i></b><br>If above solution doesn't work for you or you don't want to do it that way, you can do it manually by copying the text below and tweeting it on your timeline (your account needs to be public!):</label>";
-					echo "<textarea id=\"CopyInput1\" wrap=\"hard\" disabled>This is my account on Mastodon - ".$mastodon_special_link." - verified by @twittodon_com Twittodon.com</textarea>";
+					echo "<textarea id=\"CopyInput1\" wrap=\"hard\" disabled>This is my account on Mastodon - ".$mastodon_link." - verified by @twittodon_com Twittodon.com</textarea>";
 					echo "<button type=\"button\" id=\"CopyButton1\" onclick=\"CopyFunction1()\">Copy</button><br>";
 					echo "<label id=\"twitter_step4\"><b>Step 4</b><br>After posting a tweet confirm using button below to perform verification:</label>";
 					echo "<button type=\"submit\" id=\"verify_twitter\" name=\"verify_twitter\">Verify</button><br>";
