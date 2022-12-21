@@ -23,6 +23,19 @@
 				{ 
 					if($_POST['consent'] == "agree")
 					{
+						if($_SERVER['HTTP_CLIENT_IP'])
+						{
+							$ip = $_SERVER['HTTP_CLIENT_IP'];
+						}
+						elseif($_SERVER['HTTP_X_FORWARDED_FOR'])
+						{
+							$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+						}
+						else
+						{
+							$ip = $_SERVER['REMOTE_ADDR'];
+						}
+						
 						$message = "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">
 							<head>
 								<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
@@ -30,7 +43,7 @@
 							<body>
 								<b>Submitter's address:</b> ".$email."<br>
 								<b>Submitter's name:</b> ".addslashes(strip_tags($_POST['form_name']))."<br>
-								<b>IP:</b> ".addslashes(strip_tags($_POST['ip']))."<br>
+								<b>IP:</b> ".$ip."<br>
 								<b>Message:</b><br>
 								".addslashes(strip_tags($_POST['form_message']))."
 							</body>
@@ -52,19 +65,6 @@
 			}	
 		}
 		else { $alert = 4; }
-	}
-
-	if($_SERVER['HTTP_CLIENT_IP'])
-	{
-	 $ip = $_SERVER['HTTP_CLIENT_IP'];
-	}
-	elseif($_SERVER['HTTP_X_FORWARDED_FOR'])
-	{
-	 $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	}
-	else
-	{
-	 $ip = $_SERVER['REMOTE_ADDR'];
 	}
 
 	mysqli_close($mysqli);
@@ -306,9 +306,6 @@
 		?>
 		<div class="inputs">
 			<form method="post" action="">
-			<?php
-				echo "<input type=\"hidden\" name=\"ip\" value=\"".$ip."\" />";
-			?>
 			<input type="text" name="form_address" placeholder="Enter your e-mail address, so I can write you back" <?php echo "value=\"".addslashes(strip_tags($_POST['form_address']))."\""; ?> size="30"><br>
 			<input type="text" name="form_name" placeholder="Enter your name, so I know how to call you" <?php echo "value=\"".addslashes(strip_tags($_POST['form_name']))."\""; ?> size="30"><br>
 			<textarea name="form_message" placeholder="Type your message here..." size="30" rows="15"><?php echo addslashes(strip_tags($_POST['form_message'])); ?></textarea><br>
