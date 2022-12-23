@@ -500,7 +500,7 @@
 					echo "<label><b>Step 3 - <i>option 1</i></b><br>Button below will direct you to your Mastodon account and prepare a proper toot, the only thing you need to do is to confirm sending toot (you must be logged into account which you are verifying and your account needs to be public!):</label>";
 					echo "<button type=\"button\" onClick=\"window.open('https://".$mastodon_server."/publish?text=This is my account on Twitter - https://twitter.com\/".$twitter." - verified by https://Twittodon.com', '_blank');\">Prepare toot</button><br>";
 					echo "<label><b>Step 3 - <i>option 2</i></b><br>If above solution doesn't work for you or you don't want to do it that way, you can do it manually by copying the text below and posting it on your timeline (your account needs to be public!):</label>";
-					echo "<textarea id=\"CopyInput2\" wrap=\"hard\" disabled>This is my account on Twitter - twitter.com/".$twitter." - verified by https://Twittodon.com</textarea>";
+					echo "<textarea id=\"CopyInput2\" wrap=\"hard\" disabled>This is my account on Twitter - https://twitter.com/".$twitter." - verified by https://Twittodon.com</textarea>";
 					echo "<button type=\"button\" id=\"CopyButton2\" onclick=\"CopyFunction2()\">Copy</button><br>";
 					echo "<label id=\"mastodon_step4\"><b>Step 4</b><br>After posting a toot confirm using button below to perform verification:</label>";
 					echo "<button type=\"submit\" id=\"verify_mastodon\" name=\"verify_mastodon\">Verify</button><br>";
