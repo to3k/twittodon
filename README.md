@@ -8,6 +8,6 @@ Source code of Twittodon.com
 This is a open-source project, so you can do whatever you want with it. You don't need to do that, but I will be pleased if you let me know if you have used any part of it :)
 
 Join me on:
-* Twitter [@theto3k](https://twitter.com/theto3k)
-* Mastodon [to3k@mstdn.social](https://mstdn.social/@to3k)
+* Twitter [@theto3k](https://twitter.com/theto3k) and [@twittodon_com](https://twitter.com/twittodon_com)
+* Mastodon [to3k@mstdn.social](https://mstdn.social/@to3k) and [twittodon@fosstodon.org](https://fosstodon.org/@twittodon)
 * My personal website [TomaszDunia.pl](https://tomaszdunia.pl)
