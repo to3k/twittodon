@@ -21,8 +21,6 @@
 				} 
 				else 
 				{ 
-					if($_POST['consent'] == "agree")
-					{
 						if($_SERVER['HTTP_CLIENT_IP'])
 						{
 							$ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -55,8 +53,6 @@
 		
 						mail($address, $subject, $message, $header);
 						$alert = 2;
-					}
-					else { $alert = 5; }
 				}
 			}
 			else
@@ -299,10 +295,6 @@
 			{
 				echo "<h3><font color=\"red\"><img src=\"/img/fail.png\" height=\"15px\" />   The message has not been sent. All fields must be filled.</font></h3>";
 			}
-			elseif($alert==5)
-			{
-				echo "<h3><font color=\"red\"><img src=\"/img/fail.png\" height=\"15px\" />   The message has not been sent. Consent for data processing is required.</font></h3>";
-			}
 		?>
 		<div class="inputs">
 			<form method="post" action="">
@@ -312,7 +304,7 @@
 			<img src="captcha.php" alt="Captcha" /><br>
 			<input type="text" name="user_code" placeholder="Enter the code from the image"><br>
 			<center><label style="width: 75%;">
-				<input class="checkbox" type="checkbox" id="consent" name="consent" value="agree"> I consent to the processing of my data in accordance with the <a href="privacy.php">privacy policy of this website</a>.
+			The administrator of your data is Tomasz Dunia. Data will be processed in order to respond to your message. <a href="privacy.php">More information</a>.
 			</label></center><br>
 			<button type="submit" name="submit">Send</button><br>
 			<br><br>
