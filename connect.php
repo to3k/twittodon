@@ -52,10 +52,11 @@
                     else { break; }
                 }
 
-				preg_match("(class=\"profile-card-fullname\".+?>(.+?)</a>)is", $site_source_code, $phrase);
-				$twitter_name = addslashes(strip_tags($phrase[1]));
+				preg_match("(class=\"profile-card-fullname\" href=\"(.+?)\".+?>(.+?)</a>)is", $site_source_code, $phrase);
+				$twitter_test = addslashes(strip_tags($phrase[1]));
+				$twitter_name = addslashes(strip_tags($phrase[2]));
 
-				if(empty($twitter_name))
+				if(empty($twitter_test))
 				{
 					$message1 = "<message-red><img src=\"/img/fail.png\" height=\"15px\" />   Are you sure that this account exists? Check if entered username is correct.<br>If further failures occur, report the problem using <a href=\"bug_report.php\" target=\"_blank\">this form</a>.</message-red>";
 				}
@@ -80,10 +81,11 @@
                     else { break; }
                 }
                 
-				preg_match("(<title>(.+?)</title>)is", $site_source_code, $phrase);
+				preg_match("(<title>(.+?)</title>.+?<link>(.+?)</link>)is", $site_source_code, $phrase);
 				$mastodon_name = addslashes(strip_tags($phrase[1]));
+				$mastodon_test = addslashes(strip_tags($phrase[2]));
 
-				if(empty($mastodon_name))
+				if(empty($mastodon_test))
 				{
 					$message2 = "<message-red><img src=\"/img/fail.png\" height=\"15px\" />   Are you sure that this account exists? Check if entered username is correct.<br>If further failures occur, report the problem using <a href=\"bug_report.php\" target=\"_blank\">this form</a>.</message-red><br>";
 				}
