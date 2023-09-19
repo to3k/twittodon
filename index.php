@@ -184,7 +184,7 @@
                             <img src="/img/no_icon.png" height="10px" /> <img src="/img/cookies_icon.png" height="10px" /> This site is not using cookies.<br>
                             <img src="/img/no_icon.png" height="10px" /> <img src="/img/eye_icon.png" height="10px" /> This site is free of any tracking scripts.<br>
                             This site is transparent so:<br>
-                            <img src="/img/stats_icon.png" height="10px" /> <a href="stats.php">You have an access to it's statistics!</a><br>
+                            <img src="/img/stats_icon.png" height="10px" /> <a href="stats.php">You have an access to its statistics!</a><br>
                         </td>
                     </tr>
                 </table>
